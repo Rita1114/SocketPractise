@@ -1,19 +1,21 @@
-﻿using System;
+﻿using PimDeWitte.UnityMainThreadDispatcher;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Sockets;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Client : MonoBehaviour
 {
-
     public static Client instance;
     private TcpClient tcpClient;
     private NetworkStream stream;
     private bool isConnected;
-
+    public Text chatText;
+    public Text IPtext;
     public void Awake() => instance = this;
 
     void Start()
@@ -29,6 +31,7 @@ public class Client : MonoBehaviour
     {
         tcpClient = new TcpClient();
         await tcpClient.ConnectAsync(ip, port);
+        IPtext.text = ip;
         stream = tcpClient.GetStream();
         isConnected = true; //標記連線成功
         startReceiving();
@@ -42,6 +45,11 @@ public class Client : MonoBehaviour
             int len = await stream.ReadAsync(buffer, 0, buffer.Length);
             var packet = Packet.Deserialize(buffer.Take(len).ToArray());
             Debug.Log($"[Server] {packet.userName}: {packet.message}");
+
+            // 更新 UI
+            UnityMainThreadDispatcher.Instance().Enqueue(() => {
+                ChatUI.instance.AddMessage(packet.userName, packet.message);
+            });
         }
     }
 
