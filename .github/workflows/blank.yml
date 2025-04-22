@@ -40,7 +40,7 @@ jobs:
 
       # Optional: Upload WebGL build as artifact
       - name: Upload WebGL Build
-        uses: actions/upload-artifact@2e1dcdfd1806a99e7c441ee9f52e6a755b8e1b08
+        uses: actions/upload-artifact@v4
         with:
           name: WebGL-Build
           path: build/WebGL
