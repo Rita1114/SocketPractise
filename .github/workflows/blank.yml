@@ -2,27 +2,26 @@ name: Unity WebGL Build
 
 on:
   push:
-    branches: [ main,master ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main,master ]
+    branches: [ main, master ]
     
 permissions:
   actions: read
   contents: read
+
 jobs:
   build:
     name: Build WebGL
     runs-on: ubuntu-latest
 
-    steps:    
-      # 
+    steps:
       - name: Set up Node.js
         uses: actions/setup-node@v3
-      # Checkout your repo
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Optional: Cache Unity Library to speed up builds
       - name: Cache Library
         uses: actions/cache@v3
         with:
@@ -31,14 +30,16 @@ jobs:
           restore-keys: |
             Library-
 
-      # Unity Build Step using game-ci/unity-builder
       - name: Build WebGL
-        uses: game-ci/unity-builder@v2
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          unityVersion: 2022.3.57f1
           targetPlatform: WebGL
+          unityVersion: 2022.3.57f1
 
-      # Optional: Upload WebGL build as artifact
       - name: Upload WebGL Build
         uses: actions/upload-artifact@v4
         with:
