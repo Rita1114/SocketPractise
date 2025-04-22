@@ -37,7 +37,7 @@ jobs:
 
       # Optional: Upload WebGL build as artifact
       - name: Upload WebGL Build
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: WebGL-Build
           path: build/WebGL
