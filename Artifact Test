@@ -14,8 +14,8 @@ jobs:
       - name: Create file
         run: echo "Hello world" > test.txt
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
+      - name: Upload WebGL Build
+  uses: actions/upload-artifact@2e1dcdfd1806a99e7c441ee9f52e6a755b8e1b08
         with:
           name: hello-artifact
           path: test.txt
