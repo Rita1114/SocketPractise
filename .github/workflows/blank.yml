@@ -3,44 +3,37 @@ name: Unity WebGL Build
 on:
   push:
     branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
-    
-permissions:
-  actions: read
-  contents: read
 
 jobs:
   build:
-    name: Build WebGL
     runs-on: ubuntu-latest
-
     steps:
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Cache Library
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: Library
-          key: Library-${{ hashFiles('**/Assets/**', '**/Packages/**', '**/ProjectSettings/**') }}
+          key: Library-${{ hashFiles('**/ProjectSettings/ProjectVersion.txt') }}
           restore-keys: |
             Library-
 
-      - name: Build WebGL
-        uses: game-ci/unity-builder@v4
+      - name: Activate Unity License
+        uses: game-ci/unity-activate@v2
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+
+      - name: Build WebGL
+        uses: game-ci/unity-builder@v4
         with:
           targetPlatform: WebGL
           unityVersion: 2022.3.57f1
+          dockerImage: unityci/editor@sha256:e51a9c19b9eac2133e05e43e398e720692282f5783d82704444ad0e7cb249297  # 替換為實際 SHA（參見下方說明）
 
-      - name: Upload WebGL Build
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: WebGL-Build
