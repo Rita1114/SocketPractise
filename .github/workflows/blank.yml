@@ -12,6 +12,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    
+       - name: Set up Node.js
+        uses: actions/setup-node@v3
+        
       # Checkout your repo
       - name: Checkout repository
         uses: actions/checkout@v3
