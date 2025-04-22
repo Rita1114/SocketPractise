@@ -1,0 +1,23 @@
+name: Unity Build CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Unity
+        uses: game-ci/unity-actions/setup@v3
+        with:
+          unityVersion: 2022.3.57f1  
+
+      - name: Build project
+        uses: game-ci/unity-actions/build@v3
+        with:
+          targetPlatform: WebGL
