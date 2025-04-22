@@ -31,8 +31,7 @@ jobs:
         with:
           targetPlatform: WebGL
           unityVersion: 2022.3.57f1
-          dockerImage: unityci/editor@sha256:e51a9c19b9eac2133e05e43e398e720692282f5783d82704444ad0e7cb249297  # 替換為實際 SHA（參見下方說明）
-
+          customImage: "unityci/editor:ubuntu-2022.3.57f1-webgl-0"
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
