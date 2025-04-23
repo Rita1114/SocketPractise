@@ -12,7 +12,7 @@ public class ChatUI : MonoBehaviour
 
 
     public InputField nameInputField;
-    public string userName;
+    private string userName;
     public InputField messageInputField;
     [SerializeField] Button sendbtn;
 

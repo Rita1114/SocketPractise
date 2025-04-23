@@ -31,7 +31,7 @@ public class Client : MonoBehaviour
     {
         tcpClient = new TcpClient();
         await tcpClient.ConnectAsync(ip, port);
-        IPtext.text = ip;
+        IPtext.text = "IP="+ ip;
         stream = tcpClient.GetStream();
         isConnected = true; //標記連線成功
         startReceiving();
